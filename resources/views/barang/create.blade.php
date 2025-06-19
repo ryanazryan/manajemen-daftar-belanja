@@ -57,14 +57,11 @@
                             <!-- Tanggal -->
 
                             <div>
-                                {{-- Label tetap sama --}}
                                 <x-input-label for="tanggal" :value="__('Tanggal (Opsional)')" />
 
-                                {{-- Input dengan class yang disesuaikan --}}
                                 <x-text-input id="tanggal" type="date" name="tanggal" :value="old('tanggal')"
                                     class="block mt-1 w-full border-2 border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
 
-                                {{-- Error message tetap sama --}}
                                 <x-input-error :messages="$errors->get('tanggal')" class="mt-2" />
                             </div>
 
