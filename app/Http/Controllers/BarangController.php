@@ -97,4 +97,11 @@ class BarangController extends Controller
 
         return Excel::download(new BarangsExport, $fileName);
     }
+
+    public function collection()
+    {
+        return Barang::select('id', 'nama_barang', 'nama_orang', 'kuantitas', 'harga_per_satuan', 'tanggal', 'keterangan')
+            ->orderBy('id', 'asc')
+            ->get();
+    }
 }
