@@ -16,7 +16,18 @@
                         <p><strong>Kuantitas:</strong> {{ $barang->kuantitas }}</p>
                         <p><strong>Harga Per Satuan:</strong> Rp {{ number_format($barang->harga_per_satuan, 0, ',', '.') }}</p>
                         <p><strong>Harga Total:</strong> Rp {{ number_format($barang->harga_total, 0, ',', '.') }}</p>
-                        <p><strong>Keterangan:</strong> {{ $barang->keterangan }}</p>
+                        <p><strong>Keterangan:</strong> {{ $barang->keterangan ?? '-' }}</p>
+
+                        {{-- ====================================================== --}}
+                        {{-- ============ TAMBAHKAN BLOK KODE INI ================= --}}
+                        {{-- ====================================================== --}}
+                        @if ($barang->tanggal)
+                            <p><strong>Tanggal:</strong> {{ $barang->tanggal->translatedFormat('d F Y') }}</p>
+                        @else
+                            <p><strong>Tanggal:</strong> -</p>
+                        @endif
+                        {{-- ====================================================== --}}
+
                     </div>
 
                     <div class="mt-6">

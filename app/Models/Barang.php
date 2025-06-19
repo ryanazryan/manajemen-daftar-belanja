@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Barang extends Model
 {
     protected $table = 'barang';
-    protected $fillable = ['nama_barang', 'nama_orang', 'kuantitas', 'harga_per_satuan', 'keterangan'];
+    protected $fillable = ['nama_barang', 'nama_orang', 'kuantitas', 'harga_per_satuan', 'tanggal','keterangan'];
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
 
     public static function boot()
     {
@@ -16,5 +19,6 @@ class Barang extends Model
         static::saving(function ($barang){
             $barang->harga_total = $barang->kuantitas * $barang->harga_per_satuan;
         });
+        
     }
 }

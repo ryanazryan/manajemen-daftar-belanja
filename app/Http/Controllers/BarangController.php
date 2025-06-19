@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
+
     public function index()
-    {
-        $barangs = Barang::all();
-        return view('barang.index', compact('barangs'));
-    }
+{
+    $barangs = Barang::latest()->paginate(10); 
+    return view('barang.index', compact('barangs'));
+}
 
     public function create()
     {
@@ -20,14 +21,16 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_barang' => 'required|string|max:255',
             'nama_orang' => 'required|string|max:255',
             'kuantitas' => 'required|integer|min:1',
             'harga_per_satuan' => 'required|numeric|min:0',
+            'tanggal' => 'nullable|date|after_or_equal:today'
         ]);
 
-        Barang::create($request->all());
+        Barang::create($validatedData);
+
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
@@ -45,12 +48,13 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_barang' => 'required|string|max:255',
             'nama_orang' => 'required|string|max:255',
             'kuantitas' => 'required|integer',
             'harga_per_satuan' => 'required|string',
             'keterangan' => 'nullable|string',
+            'tanggal' => 'nullable|date|after_or_equal:today'
         ]);
 
         $barang = Barang::findOrFail($id);
@@ -63,6 +67,7 @@ class BarangController extends Controller
             'kuantitas' => $request->kuantitas,
             'harga_per_satuan' => $hargaPerSatuan,
             'keterangan' => $request->keterangan,
+            'tanggal' => $validatedData['tanggal']
         ]);
 
         return redirect()->route('barang.edit', $barang->id)->with('status', 'barang-updated');
