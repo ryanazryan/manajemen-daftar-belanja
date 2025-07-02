@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
-use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -52,10 +51,7 @@ class InvoiceController extends Controller
             ]);
         }
         
-        $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
-        $fileName = 'Invoice-' . $invoice->invoice_number . '.pdf';
-
-        return $pdf->stream($fileName);
+        return redirect()->route('invoices.index')->with('success', 'Invoice baru berhasil dibuat!');
     }
     
     public function show(Invoice $invoice)
@@ -66,8 +62,13 @@ class InvoiceController extends Controller
     public function print(Invoice $invoice)
     {
         $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
-        $fileName = 'Invoice-' . $invoice->invoice_number . '.pdf';
-        return $pdf->stream($fileName);
+        return $pdf->stream('Invoice-' . $invoice->invoice_number . '.pdf');
+    }
+
+    public function download(Invoice $invoice)
+    {
+        $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
+        return $pdf->download('Invoice-' . $invoice->invoice_number . '.pdf');
     }
     
     public function destroy(Invoice $invoice)

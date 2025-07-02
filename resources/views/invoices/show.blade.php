@@ -12,7 +12,7 @@
 
                     {{-- Tombol Aksi di Atas --}}
                     <div class="flex justify-end space-x-3 mb-6">
-                        <a href="{{ route('invoices.print', $invoice) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                        <a href="{{ route('invoices.print', $invoice) }}" target="_blank" class="inline-flex items-center px-4 py-2 mr-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             Cetak
                         </a>
                         <a href="{{ route('invoices.download', $invoice) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
@@ -41,7 +41,7 @@
                     </div>
 
                     {{-- Tabel Item --}}
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mt-3">
                         <table class="min-w-full border">
                             <thead class="bg-gray-100">
                                 <tr>

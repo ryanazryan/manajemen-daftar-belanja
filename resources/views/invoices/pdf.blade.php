@@ -48,7 +48,7 @@
         }
         /* -- Akhir Style Header -- */
 
-        .details-container { width: 100%; margin-bottom: 20px; }
+        .details-container { width: 100%; margin-bottom: 20px; margin-top: 20px;}
         table.items { width: 100%; border-collapse: collapse; margin-top: 10px; }
         table.items th, table.items td { border: 1px solid #777; padding: 8px; text-align: left; }
         table.items th { background-color: #f2f2f2; }

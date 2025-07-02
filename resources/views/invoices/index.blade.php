@@ -8,12 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- Tombol untuk membuat invoice baru --}}
+            
             <a href="{{ route('invoices.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 mb-4">
                 Buat Invoice Baru
             </a>
 
-            {{-- Notifikasi Sukses --}}
+            
             @if (session('success'))
                 <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded-lg">
                     {{ session('success') }}
@@ -64,10 +64,11 @@
                         </table>
                     </div>
 
+                    
                     <div class="mt-6">
                         {{ $invoices->links() }}
                     </div>
-            </div>
+                </div>
             </div>
         </div>
     </div>
