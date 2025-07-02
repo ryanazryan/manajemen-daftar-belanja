@@ -7,7 +7,7 @@ use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class BarangController extends Controller
 {
 
@@ -89,13 +89,6 @@ class BarangController extends Controller
         $barang->delete();
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus.');
-    }
-
-    public function export()
-    {
-        $fileName = 'unit-usaha-dwp' . date('Y-m-d') . '.xlsx';
-
-        return Excel::download(new BarangsExport, $fileName);
     }
 
     public function collection()
