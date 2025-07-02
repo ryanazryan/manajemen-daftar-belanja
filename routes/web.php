@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('barang', BarangController::class);
     Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
     Route::resource('invoices', InvoiceController::class);
+     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
 });
 
 require __DIR__ . '/auth.php';

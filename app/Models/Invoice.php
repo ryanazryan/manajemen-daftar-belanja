@@ -16,8 +16,13 @@ class Invoice extends Model
         'total_amount',
     ];
 
+    protected $casts = [
+        'invoice_date' => 'date',
+    ];
+    
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
     }
+
 }
