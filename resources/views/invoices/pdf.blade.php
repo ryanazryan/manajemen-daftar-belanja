@@ -136,11 +136,9 @@
         </table>
 
         <div class="footer">
-            <div class="signature-left">
-                <p>(.........................)</p>
-            </div>
+
             <div class="signature-right">
-                Hormat Kami,
+                Hormat Kami, Ana Farlina
                 <p>(.........................)</p>
             </div>
         </div>

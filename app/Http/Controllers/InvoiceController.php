@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
 {
@@ -62,13 +63,22 @@ class InvoiceController extends Controller
     public function print(Invoice $invoice)
     {
         $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
-        return $pdf->stream('Invoice-' . $invoice->invoice_number . '.pdf');
+        
+        $customerNameSlug = Str::slug($invoice->customer_name, '_');
+        $fileName = 'invoice_' . $customerNameSlug . '.pdf';
+
+        return $pdf->stream($fileName);
     }
 
     public function download(Invoice $invoice)
     {
         $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
-        return $pdf->download('Invoice-' . $invoice->invoice_number . '.pdf');
+
+        // Membuat nama file yang aman dari nama pelanggan
+        $customerNameSlug = Str::slug($invoice->customer_name, '_');
+        $fileName = 'invoice_' . $customerNameSlug . '.pdf';
+
+        return $pdf->download($fileName);
     }
     
     public function destroy(Invoice $invoice)
