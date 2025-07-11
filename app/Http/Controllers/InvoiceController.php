@@ -29,6 +29,8 @@ class InvoiceController extends Controller
             'items.*.name' => 'required|string|max:255',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.price' => 'required|numeric|min:0',
+            'shipping_service' => 'nullable|string|max:255',
+            'shipping_cost' => 'nullable|numeric|min:0',
         ]);
 
         $totalAmount = 0;
@@ -36,10 +38,17 @@ class InvoiceController extends Controller
             $totalAmount += $item['quantity'] * $item['price'];
         }
 
+        // Tambahkan biaya pengiriman ke total
+        if ($request->filled('shipping_cost')) {
+            $totalAmount += $request->shipping_cost;
+        }
+
         $invoice = Invoice::create([
             'invoice_number' => 'INV-' . time(),
             'customer_name' => $request->customer_name,
             'invoice_date' => Carbon::now(),
+            'shipping_service' => $request->shipping_service,
+            'shipping_cost' => $request->shipping_cost ?? 0,
             'total_amount' => $totalAmount,
         ]);
 
@@ -74,7 +83,6 @@ class InvoiceController extends Controller
     {
         $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
 
-        // Membuat nama file yang aman dari nama pelanggan
         $customerNameSlug = Str::slug($invoice->customer_name, '_');
         $fileName = 'invoice_' . $customerNameSlug . '.pdf';
 

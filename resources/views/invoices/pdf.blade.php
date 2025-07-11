@@ -25,16 +25,16 @@
         }
         .header-center {
             float: left;
-            width: 70%; /* Lebar kolom teks di tengah */
+            width: 70%; 
             text-align: center;
         }
         .logo-right {
             float: right;
-            width: 15%; /* Lebar kolom logo kanan */
+            width: 15%;
             text-align: right;
         }
         .logo {
-            max-width: 80px; /* Atur ukuran logo agar tidak terlalu besar */
+            max-width: 80px; 
             max-height: 80px;
         }
         .header-center h1 {
@@ -46,7 +46,6 @@
             margin: 2px 0;
             font-size: 11px;
         }
-        /* -- Akhir Style Header -- */
 
         .details-container { width: 100%; margin-bottom: 20px; margin-top: 20px;}
         table.items { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -128,6 +127,16 @@
                 @endforeach
             </tbody>
             <tfoot>
+                @if($invoice->shipping_cost > 0)
+                <tr>
+                    <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Subtotal</td>
+                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">Rp {{ number_format($invoice->total_amount - $invoice->shipping_cost, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Pengiriman ({{ $invoice->shipping_service }})</td>
+                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">Rp {{ number_format($invoice->shipping_cost, 0, ',', '.') }}</td>
+                </tr>
+                @endif
                 <tr>
                     <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Total Keseluruhan</td>
                     <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</td>

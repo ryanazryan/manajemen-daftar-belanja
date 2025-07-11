@@ -22,6 +22,20 @@
 
                         <button type="button" id="add-item-btn" class="mt-4 text-sm text-blue-600 hover:text-blue-800">+ Tambah Barang</button>
                         
+                        <div class="mt-6 border-t pt-4">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Pengiriman</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <x-input-label for="shipping_service" :value="__('Jasa Pengiriman (JNT, JNE, dll)')" />
+                                    <x-text-input id="shipping_service" class="block mt-1 w-full" type="text" name="shipping_service" placeholder="Contoh: JNT Express" />
+                                </div>
+                                <div>
+                                    <x-input-label for="shipping_cost" :value="__('Biaya Pengiriman')" />
+                                    <x-text-input id="shipping_cost" class="block mt-1 w-full" type="number" name="shipping_cost" placeholder="Rp 0" />
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="flex items-center justify-end mt-6">
                             <x-primary-button>
                                 {{ __('Simpan & Cetak Invoice') }}

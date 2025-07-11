@@ -14,6 +14,8 @@ class Invoice extends Model
         'customer_name',
         'invoice_date',
         'total_amount',
+        'shipping_service', 
+        'shipping_cost',    
     ];
 
     protected $casts = [

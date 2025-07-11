@@ -10,7 +10,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 md:p-8 text-gray-900">
 
-                    {{-- Tombol Aksi di Atas --}}
                     <div class="flex justify-end space-x-3 mb-6">
                         <a href="{{ route('invoices.print', $invoice) }}" target="_blank" class="inline-flex items-center px-4 py-2 mr-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             Cetak
@@ -20,7 +19,6 @@
                         </a>
                     </div>
                     
-                    {{-- Header Invoice --}}
                     <div class="flex justify-between items-start mb-8">
                         <div>
                             <h3 class="text-lg font-bold">INVOICE</h3>
@@ -62,6 +60,16 @@
                                 @endforeach
                             </tbody>
                             <tfoot>
+                                @if($invoice->shipping_cost > 0)
+                                <tr>
+                                    <td colspan="3" class="py-2 px-4 text-right font-bold">Subtotal</td>
+                                    <td class="py-2 px-4 text-right font-bold">Rp {{ number_format($invoice->total_amount - $invoice->shipping_cost, 0, ',', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="py-2 px-4 text-right font-bold">Pengiriman ({{ $invoice->shipping_service }})</td>
+                                    <td class="py-2 px-4 text-right font-bold">Rp {{ number_format($invoice->shipping_cost, 0, ',', '.') }}</td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <td colspan="3" class="py-2 px-4 text-right font-bold">Total Keseluruhan</td>
                                     <td class="py-2 px-4 text-right font-bold">Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</td>
