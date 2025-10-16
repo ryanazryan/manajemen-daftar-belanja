@@ -38,7 +38,6 @@ class InvoiceController extends Controller
             $totalAmount += $item['quantity'] * $item['price'];
         }
 
-        // Tambahkan biaya pengiriman ke total
         if ($request->filled('shipping_cost')) {
             $totalAmount += $request->shipping_cost;
         }
