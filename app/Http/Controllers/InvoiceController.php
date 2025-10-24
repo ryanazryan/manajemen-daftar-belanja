@@ -24,39 +24,42 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'items' => 'required|array|min:1',
-            'items.*.name' => 'required|string|max:255',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required|numeric|min:0',
+            'customer_name'    => 'required|string|max:255',
+            'invoice_date'     => 'required|date',
             'shipping_service' => 'nullable|string|max:255',
-            'shipping_cost' => 'nullable|numeric|min:0',
+            'shipping_cost'    => 'nullable|numeric|min:0',
+            'discount'         => 'nullable|numeric|min:0',
+            'items'            => 'required|array|min:1',
+            'items.*.item_name'  => 'required|string|max:255',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price'    => 'required|numeric|min:0',
         ]);
 
-        $totalAmount = 0;
+        $subtotal = 0;
         foreach ($request->items as $item) {
-            $totalAmount += $item['quantity'] * $item['price'];
+            $subtotal += $item['quantity'] * $item['price'];
         }
 
-        if ($request->filled('shipping_cost')) {
-            $totalAmount += $request->shipping_cost;
-        }
+        $shippingCost = $request->shipping_cost ?? 0;
+        $discount = $request->discount ?? 0;
+        $totalAmount = ($subtotal - $discount) + $shippingCost;
 
         $invoice = Invoice::create([
-            'invoice_number' => 'INV-' . time(),
-            'customer_name' => $request->customer_name,
-            'invoice_date' => Carbon::now(),
+            'invoice_number'   => 'INV-' . time(),
+            'customer_name'    => $request->customer_name,
+            'invoice_date'     => $request->invoice_date,
             'shipping_service' => $request->shipping_service,
-            'shipping_cost' => $request->shipping_cost ?? 0,
-            'total_amount' => $totalAmount,
+            'shipping_cost'    => $shippingCost,
+            'discount'         => $discount,
+            'total_amount'     => $totalAmount,
         ]);
 
         foreach ($request->items as $item) {
             $invoice->items()->create([
-                'item_name' => $item['name'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-                'total' => $item['quantity'] * $item['price'],
+                'item_name' => $item['item_name'],
+                'quantity'  => $item['quantity'],
+                'price'     => $item['price'],
+                'total'     => $item['quantity'] * $item['price'],
             ]);
         }
         

@@ -96,7 +96,7 @@
                 </tr>
                 <tr>
                     <td style="padding: 2px 0;">Tanggal</td>
-                    <td style="padding: 2px 0;">: {{ $invoice->invoice_date->format('d F Y') }}</td>
+                    <td style="padding: 2px 0;">: {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d F Y') }}</td>
                 </tr>
                  <tr>
                     <td style="padding: 2px 0;">Nama</td>
@@ -126,28 +126,51 @@
                 </tr>
                 @endforeach
             </tbody>
+            
             <tfoot>
-                @if($invoice->shipping_cost > 0)
                 <tr>
                     <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Subtotal</td>
-                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">Rp {{ number_format($invoice->total_amount - $invoice->shipping_cost, 0, ',', '.') }}</td>
+                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">
+                        @php
+                            // Total = (Subtotal - Diskon) + Ongkir
+                            // Maka, Subtotal = Total - Ongkir + Diskon
+                            $subtotal_barang = $invoice->total_amount - $invoice->shipping_cost + $invoice->discount;
+                        @endphp
+                        Rp {{ number_format($subtotal_barang, 0, ',', '.') }}
+                    </td>
                 </tr>
+
+                @if($invoice->discount > 0)
                 <tr>
-                    <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Pengiriman ({{ $invoice->shipping_service }})</td>
-                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">Rp {{ number_format($invoice->shipping_cost, 0, ',', '.') }}</td>
+                    <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Diskon</td>
+                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">
+                        - Rp {{ number_format($invoice->discount, 0, ',', '.') }}
+                    </td>
                 </tr>
                 @endif
+
+                @if($invoice->shipping_cost > 0)
                 <tr>
-                    <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Total Keseluruhan</td>
-                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</td>
+                    <td colspan="4" class="text-right" style="border:none; font-weight:bold; padding: 8px;">Pengiriman ({{ $invoice->shipping_service }})</td>
+                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">
+                        Rp {{ number_format($invoice->shipping_cost, 0, ',', '.') }}
+                    </td>
+                </tr>
+                @endif
+
+                <tr>
+                    <td colspan="4" class_content="text-right" style="border:none; font-weight:bold; padding: 8px;">Total Keseluruhan</td>
+                    <td class="text-right" style="font-weight:bold; border: 1px solid #777; padding: 8px;">
+                        Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}
+                    </td>
                 </tr>
             </tfoot>
-        </table>
+            </table>
 
         <div class="footer">
 
             <div class="signature-right">
-                Hormat Kami, Ana Farlina
+                Hormat Kami, Baju Disna
                 <p>(.........................)</p>
             </div>
         </div>
